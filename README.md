@@ -18,7 +18,7 @@ Choose **Zebes Terminal** for the original green overlay, or pick a runner-inspi
 
 | Preset | Broadcast reference | Appearance |
 | --- | --- | --- |
-| Violet Signal | [ShinyZeni](https://www.youtube.com/watch?v=uvDNz8Uonhk) | Violet-to-cyan panel outlines and bright timing indicators |
+| Violet Signal | [ShinyZeni](https://www.youtube.com/watch?v=uvDNz8Uonhk) | Near-black panels, hot-magenta outer rails, and rounded violet, cobalt and cyan inner frames |
 | Split Clock | [Oatsngoats](https://www.youtube.com/watch?v=OjghbQnhzDE) | Squared charcoal panels, subtle dividers and teal split accents |
 | Plum Orbit | [zoasty](https://www.youtube.com/watch?v=qUVh6kkXl0w) | Plum and lavender bands with lime timing and first-place highlights |
 

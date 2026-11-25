@@ -17,7 +17,8 @@ const ThemeEditor = (() => {
     option.innerHTML = '<input type="radio" name="preset"><span class="theme-tile"><span class="swatch-strip" aria-hidden="true"></span><strong></strong><small></small></span>';
     const radio = option.querySelector("input");
     radio.value = id;
-    for (const color of [palette.panel,palette.accent,palette.secondary]) {
+    const swatches = [palette.panel,palette.accent,palette.railViolet,palette.railBlue,palette.secondary];
+    for (const color of swatches.filter(Boolean)) {
       const swatch = document.createElement("i");
       swatch.style.setProperty("--swatch",color);
       option.querySelector(".swatch-strip").append(swatch);

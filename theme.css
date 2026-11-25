@@ -44,11 +44,39 @@ html.broadcast-palette {scrollbar-color:var(--line) var(--page)}
 .broadcast-palette .chat-link, .broadcast-palette nav a.active {color:var(--lime)}
 .broadcast-palette .chat-panel, .broadcast-palette footer {border-color:var(--line)}
 
-.broadcast-palette[data-frame="signal"] :is(.panel,.banner) {
-  border:1px solid transparent;
-  background:linear-gradient(var(--panel),var(--panel)) padding-box,
-             linear-gradient(115deg,var(--lime),var(--line) 55%,var(--secondary)) border-box;
+.broadcast-palette[data-frame="signal"] {
+  --rail-gradient:linear-gradient(108deg,var(--rail-violet),var(--rail-blue) 22%,var(--secondary) 50%,var(--rail-blue) 78%,var(--rail-violet));
+  --rail-glow:color-mix(in srgb,var(--lime) 34%,transparent);
+  --split-glow:color-mix(in srgb,var(--secondary) 25%,transparent);
 }
+.broadcast-palette[data-frame="signal"] .streaming #console,
+.preview-screen.broadcast-palette[data-frame="signal"] {
+  border:2px solid var(--lime);border-radius:2px;
+  background:var(--page);box-shadow:0 0 7px var(--rail-glow),inset 0 0 5px var(--rail-glow);
+}
+.broadcast-palette[data-frame="signal"] .streaming #console {padding:clamp(5px,.55vw,10px)}
+.broadcast-palette[data-frame="signal"] .streaming .dashboard {margin-top:clamp(5px,.55vw,10px);gap:clamp(5px,.55vw,10px)}
+.broadcast-palette[data-frame="signal"] .panel {
+  border:2px solid var(--lime);border-radius:2px;
+  background:radial-gradient(ellipse at 95% 100%,color-mix(in srgb,var(--rail-violet) 14%,var(--panel)),transparent 54%),var(--panel);
+}
+.broadcast-palette[data-frame="signal"] :is(.question-panel,.banner) {
+  border:2px solid transparent;border-radius:16px;
+  background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--rail-gradient) border-box;
+  box-shadow:0 0 5px var(--split-glow);
+}
+.broadcast-palette[data-frame="signal"] :is(.ticker,.panel-heading) {
+  border:0;
+  background:linear-gradient(90deg,var(--lime),var(--rail-violet) 35%,var(--rail-blue) 72%,var(--lime)) bottom / 100% 2px no-repeat,
+             linear-gradient(90deg,var(--tinted),var(--panel) 28%,var(--panel) 72%,var(--tinted));
+}
+.broadcast-palette[data-frame="signal"] .ticker {background-position:top,center}
+.broadcast-palette[data-frame="signal"] .hero :is(h1,h3) span {text-shadow:0 0 7px var(--rail-glow),0 2px 2px #030106}
+.broadcast-palette[data-frame="signal"] :is(.preview-time,#timer-bar) {
+  background:linear-gradient(90deg,var(--lime),var(--rail-violet) 35%,var(--rail-blue) 65%,var(--secondary));
+}
+.broadcast-palette[data-frame="signal"] .leaders li:first-child b {color:var(--lime)}
+.preview-screen.broadcast-palette[data-frame="signal"] :is(.banner,.question-panel) {border-radius:9px}
 .broadcast-palette[data-frame="splits"] :is(.panel,.banner,.choice,.live-tag) {border-radius:1px}
 .broadcast-palette[data-frame="splits"] .panel-heading {border-top:2px solid var(--secondary)}
 .broadcast-palette[data-frame="splits"] :is(.timer-info b,.leaders li b) {font-family:var(--mono);font-variant-numeric:tabular-nums}

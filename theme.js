@@ -3,7 +3,7 @@
 const BroadcastTheme = (() => {
   const presets = {
     terminal: {name:"Zebes Terminal", description:"Moss green · original", page:"#0a0d0b", panel:"#111612", accent:"#b2f46c", secondary:"#b2f46c", text:"#eff2e8", tint:"#0c1814"},
-    signal: {name:"Violet Signal", description:"Violet · cyan frames", page:"#0a0912", panel:"#141122", accent:"#c298ff", secondary:"#73e3ff", text:"#f4efff", tint:"#110a20"},
+    signal: {name:"Violet Signal", description:"Neon vaporwave", page:"#030106", panel:"#080511", accent:"#fe4fff", secondary:"#4aecef", railViolet:"#734cf7", railBlue:"#496ddb", text:"#f6f2ff", tint:"#200d36"},
     splits: {name:"Split Clock", description:"Charcoal · teal splits", page:"#090b0c", panel:"#171b1e", accent:"#72ead0", secondary:"#a9eff0", text:"#f4f5f6", tint:"#10171b"},
     orbit: {name:"Plum Orbit", description:"Plum · lavender bands", page:"#170f22", panel:"#291c37", accent:"#d9baff", secondary:"#c2e580", text:"#f9efff", tint:"#281732"}
   };
@@ -59,6 +59,12 @@ const BroadcastTheme = (() => {
     const tokens = {page:theme.page, panel:theme.panel, lime:theme.accent, white:theme.text,
       secondary:theme.secondary, "banner-tint":theme.tint, "tint-amount":theme.shade + "%",
       "accent-ink":contrast(theme.accent,"#ffffff") > contrast(theme.accent,"#000000") ? "#ffffff" : "#000000"};
+    if (theme.frame === "signal") {
+      const signal = presets.signal;
+      const originalRails = theme.accent === signal.accent && theme.secondary === signal.secondary;
+      tokens["rail-violet"] = originalRails ? signal.railViolet : "color-mix(in hsl,var(--lime) 65%,var(--secondary))";
+      tokens["rail-blue"] = originalRails ? signal.railBlue : "color-mix(in hsl,var(--lime) 35%,var(--secondary))";
+    }
     for (const [key,value] of Object.entries(tokens)) node.style.setProperty("--" + key, value);
     // The second layer keeps the bundled artwork visible if a channel image goes offline.
     const art = theme.banner ? 'url(' + JSON.stringify(theme.banner) + '), url(assets/zebes.png)' : 'url(assets/zebes.png)';
