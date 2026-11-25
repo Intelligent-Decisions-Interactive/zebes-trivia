@@ -12,6 +12,22 @@ A scrolling Super Metroid trivia screen for stream breaks. Chat gets 30 seconds 
 
 The direct URL takes the form `https://intelligent-decisions-interactive.github.io/zebes-trivia/stream.html?channel=YOUR_TWITCH_LOGIN`. One Browser Source runs the scored game. Reuse that source if you want it in another scene. The overlay joins public Twitch chat through a read-only WebSocket and retries dropped connections. The status beside the leaderboard shows whether it is connected.
 
+## Broadcast themes
+
+Choose **Zebes Terminal** for the original green overlay, or pick a runner-inspired preset in [stream setup](https://intelligent-decisions-interactive.github.io/zebes-trivia/setup.html). The presets draw on public broadcasts:
+
+| Preset | Broadcast reference | Appearance |
+| --- | --- | --- |
+| Violet Signal | [ShinyZeni](https://www.youtube.com/watch?v=uvDNz8Uonhk) | Violet-to-cyan panel outlines and bright timing indicators |
+| Split Clock | [Oatsngoats](https://www.youtube.com/watch?v=OjghbQnhzDE) | Squared charcoal panels, subtle dividers and teal split accents |
+| Plum Orbit | [zoasty](https://www.youtube.com/watch?v=qUVh6kkXl0w) | Plum and lavender bands with lime timing and first-place highlights |
+
+Select **Customize this preset** to change six colors, frame style, banner image and header tint strength. The preview updates as you edit. Every preset starts with the full-width Samus banner at 60% tint. Custom images use public HTTPS URLs; the built-in art loads behind them.
+
+**Get OBS link** includes your theme, channel and optional font in the Browser Source URL. Use **Bookmark or share this setup** to reopen the editor with the same choices on another device. **Share theme without a channel** opens the same design with the channel field empty for another streamer. To change the look of an existing stream, replace its Browser Source URL with the new one. The same channel and browser profile keep their scores and question rotation.
+
+To preview a preset without chat, open `stream.html?theme=signal`, `stream.html?theme=splits` or `stream.html?theme=orbit`. Existing links use Zebes Terminal.
+
 ## Broadcast font
 
 Zebes Relay is the overlay’s original typeface. Its regular and bold webfonts ship with the site and offline download. Existing OBS links use it automatically.

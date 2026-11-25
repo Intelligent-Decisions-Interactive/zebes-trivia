@@ -2,32 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Connect Twitch chat | Zebes Terminal</title>
+  <title>Stream setup | Zebes Terminal</title>
   <link rel="icon" href="assets/mark.png"><link rel="stylesheet" href="style.css?v=5892e2c">
-  <script defer src="chat.js"></script><script defer src="font.js"></script><script defer src="setup.js"></script>
+  <link rel="stylesheet" href="theme.css?v=1">
+  <script defer src="chat.js"></script><script defer src="theme.js?v=1"></script><script defer src="font.js"></script><script defer src="theme-editor.js?v=1"></script><script defer src="setup.js?v=themes1"></script>
 </head>
 <body>
 <header class="topbar"><div class="bar-inner"><a href="index.html" class="brand"><img src="assets/mark.png" alt="" width="32" height="32">ZEBES<span>TERMINAL</span></a></div></header>
-<main class="setup-page">
-  <div class="setup-art"></div>
-  <section class="setup-copy"><h1>Connect Twitch chat</h1>
-    <p>Turn your BRB scene into a Super Metroid quiz. Viewers answer in Twitch chat and earn a place on your stream’s leaderboard.</p>
+<main class="studio">
+  <header class="studio-title"><h1>BRB stream setup</h1>
+    <p>Connect your Twitch chat, choose a broadcast theme, and copy one link into OBS.</p></header>
+  <div class="studio-grid">
+  <section class="studio-card" aria-label="Channel and appearance">
     <form id="channel-form">
       <label class="field-label" for="channel-name">Twitch channel</label>
-      <div class="channel-row"><input id="channel-name" class="chat-field" placeholder="Channel name" autocapitalize="none" spellcheck="false" required><button type="submit" class="button primary">Get OBS link</button></div>
+      <input id="channel-name" class="chat-field" placeholder="Channel name" autocapitalize="none" spellcheck="false" required>
+      <fieldset><legend>Broadcast theme</legend><div id="theme-list" class="theme-list"></div></fieldset>
+      <button id="customize" class="button customize" type="button" aria-expanded="false" aria-controls="custom-fields">Customize this preset</button>
+      <a class="inline-link mobile-preview-link" href="#preview-title">View preview ↓</a>
+      <div id="custom-fields" class="custom-fields" hidden>
+        <div id="color-controls" class="color-grid"></div>
+        <div class="shade-row"><div><label for="theme-shade">Tint opacity</label> <output id="shade-value" for="theme-shade">60%</output></div><input id="theme-shade" type="range" min="0" max="100" value="60"></div>
+        <label class="field-label" for="theme-frame">Frame style</label>
+        <select id="theme-frame"></select>
+        <label class="field-label" for="theme-banner">Banner image URL (optional)</label>
+        <input id="theme-banner" class="chat-field" type="url" placeholder="https://example.com/banner.png" autocapitalize="none" spellcheck="false">
+        <small class="hint">Use a public HTTPS image. Leave blank for Samus.</small>
+        <p id="contrast-note" class="notice" hidden></p>
+      </div>
       <details class="font-options" id="font-options"><summary>Customize font</summary>
         <label class="field-label" for="font-url">Channel font URL (optional)</label>
         <input id="font-url" class="chat-field" type="url" placeholder="https://example.com/channel.woff2" aria-describedby="font-hint" autocapitalize="none" spellcheck="false">
         <small id="font-hint">The default is Zebes Relay. To use your own, link directly to a webfont that allows cross-origin loading.</small>
         <p class="font-preview" id="font-preview">Super Metroid · A B C D · 01:59</p>
       </details>
-      <p role="status" id="setup-error" hidden></p>
+      <button type="submit" class="button primary">Get OBS link</button>
+      <p class="notice" role="status" id="setup-error" hidden></p>
     </form>
     <div id="link-result" hidden><label for="source-url" class="field-label">Your Browser Source URL</label><div class="channel-row"><input class="chat-field" id="source-url" readonly><button class="button" id="copy-url">Copy link</button></div>
-      <p id="copy-result" role="status"></p></div>
-    <h2>Add it to OBS</h2>
+      <p id="copy-result" role="status"></p><p><a class="inline-link" id="edit-theme" href="setup.html">Bookmark or share this setup</a></p></div>
+  </section>
+  <section class="studio-card preview-card" aria-labelledby="preview-title">
+    <h2 id="preview-title">Broadcast preview</h2>
+    <div class="preview-screen" id="theme-preview">
+      <div class="banner"><div class="hero"><div class="hero-copy">
+        <div class="live-tag"><b class="live-dot"></b>LIVE TRANSMISSION</div>
+        <h3>SUPER METROID<span>TRIVIA TERMINAL</span></h3><p>Be right back. Play along in chat.</p>
+      </div><span class="bracket tl"></span><span class="bracket tr"></span></div>
+      <div class="ticker"><span class="ticker-label">LIVE TICKER</span><span class="preview-crawl">Super Metroid · SNES · 1994</span></div></div>
+      <div class="preview-board"><div class="panel question-panel"><div class="panel-heading">Current question</div>
+        <p class="preview-question">Which item lets Samus store a shinespark?</p>
+        <div class="preview-choices"><span class="choice">A · Gravity Suit</span><span class="choice">B · Speed Booster</span><span class="choice">C · Space Jump</span><span class="choice">D · Hi-Jump Boots</span></div>
+        <div class="timer-track"><div class="preview-time"></div></div></div>
+        <div class="panel"><div class="panel-heading">Leaderboard</div><ol class="leaders preview-leaders" aria-label="Sample standings"><li>Samus <b>04</b></li><li>BabyTroid <b>03</b></li></ol></div>
+      </div>
+    </div>
+    <a class="inline-link share-palette" id="share-palette" href="setup.html">Share theme without a channel</a>
+  </section></div>
+  <section class="studio-card studio-guide"><h2>Add it to OBS</h2>
     <ol><li>Add a <strong>Browser</strong> source to your BRB scene.</li><li>Paste your link into <strong>URL</strong>. Set the size to <strong>1920 × 1080</strong>.</li><li>Switch to the scene. Chat’s first A, B, C or D per viewer counts for that question.</li></ol>
     <p>Scores and answer history stay in that OBS browser profile across streams. To browse a viewer’s answers or export the log, choose <strong>Interact</strong> in OBS, press <kbd>V</kbd> and open <strong>Scorebook</strong>.</p>
-    <a href="https://github.com/Intelligent-Decisions-Interactive/zebes-trivia">Source and contributions on GitHub</a>
+    <a class="inline-link" href="https://github.com/Intelligent-Decisions-Interactive/zebes-trivia">Source and contributions on GitHub</a>
   </section>
 </main></body></html>

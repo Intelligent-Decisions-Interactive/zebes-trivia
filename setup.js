@@ -8,6 +8,7 @@ const params=new URLSearchParams(location.search);
 input.value=twitchLogin(params.get("channel"));
 fontInput.value=params.get("font") || "";
 if(fontInput.value) document.getElementById("font-options").open=true;
+ThemeEditor.updateShareLink();
 let fontRequest, requestedURL, previewFace, revision=0;
 
 function invalidateLink() {
@@ -19,7 +20,9 @@ function invalidateLink() {
 }
 form.addEventListener("input",invalidateLink);
 fontInput.oninput=()=>{
+  ThemeEditor.updateShareLink();
   preview.style.fontFamily="";
+  document.getElementById("theme-preview").style.removeProperty("--pixel");
   if(previewFace) document.fonts.delete(previewFace);
   previewFace=null;
 };
@@ -36,6 +39,7 @@ async function previewFont(url) {
     document.fonts.add(face);
     previewFace=face;
     preview.style.fontFamily='"Channel Overlay",var(--pixel)';
+    document.getElementById("theme-preview").style.setProperty("--pixel", '"Channel Overlay","Zebes Relay",sans-serif');
   } catch(error) {
     if(pending===fontRequest) fontRequest=null;
     throw error;
@@ -52,6 +56,7 @@ fontInput.onchange=async ()=>{
   try { await previewFont(overlayFontURL(value)); }
   catch { if(fontInput.value===value) fontError(); }
 };
+if(fontInput.value) fontInput.onchange();
 document.getElementById("channel-form").onsubmit=async e=>{
   e.preventDefault();
   const version=++revision;
@@ -61,9 +66,7 @@ document.getElementById("channel-form").onsubmit=async e=>{
   }
   const login=twitchLogin(value);
   if (!login) {error.textContent="Enter your Twitch channel name, such as speedrunner_42.";error.hidden=false;result.hidden=true;return;}
-  const base=location.protocol==="file:" || location.hostname.endsWith(".chatgpt.site")
-    ? "https://intelligent-decisions-interactive.github.io/zebes-trivia/" : location.href;
-  const url=new URL("stream.html",base);
+  const url=new URL("stream.html",setupBase);
   url.searchParams.set("channel",login);
   if(fontInput.value.trim()) {
     submit.disabled=true;
@@ -80,6 +83,10 @@ document.getElementById("channel-form").onsubmit=async e=>{
       if(version===revision) {submit.disabled=false;submit.textContent="Get OBS link";}
     }
   }
+  ThemeEditor.write(url.searchParams);
+  const edit=new URL("setup.html",setupBase);
+  edit.search=url.search;
+  document.getElementById("edit-theme").href=edit.href;
   field.value=url.href;
   document.getElementById("copy-result").textContent="";
   error.hidden=true; result.hidden=false;
