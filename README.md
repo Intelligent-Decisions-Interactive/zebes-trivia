@@ -12,6 +12,14 @@ A scrolling Super Metroid trivia screen for stream breaks. Chat gets 30 seconds 
 
 The direct URL takes the form `https://intelligent-decisions-interactive.github.io/zebes-trivia/stream.html?channel=YOUR_TWITCH_LOGIN`. One Browser Source runs the scored game. Reuse that source if you want it in another scene. The overlay joins public Twitch chat through a read-only WebSocket and retries dropped connections. The status beside the leaderboard shows whether it is connected.
 
+## Broadcast font
+
+Zebes Relay is the overlay’s original typeface. Its regular and bold webfonts ship with the site and offline download. Existing OBS links use it automatically.
+
+To use a channel font, open **Customize font** in the link generator, enter a direct HTTPS font file URL and generate the OBS link. The font host must allow cross-origin requests. The overlay uses Zebes Relay if the custom font is unavailable.
+
+The editable letterforms are in `tools/build_font.py`. To regenerate the two WOFF2 files, install `fonttools`, `shapely` and `brotli`, then run `python tools/build_font.py`.
+
 ## Answer history
 
 In OBS, right-click the Browser Source, choose **Interact**, press **V** and choose **Open scorebook**. Search for a viewer to see their standing and latest 50 guesses, or export every recorded answer as CSV. Press **V** again after closing the scorebook to return to the broadcast layout.
@@ -30,4 +38,4 @@ Run `python tools/package_overlay.py` to rebuild the offline ZIP after changing 
 
 ## License
 
-The original code and trivia text use the [MIT License](LICENSE). The bundled fonts have their own SIL Open Font Licenses in `assets/`. Super Metroid and its characters belong to Nintendo. This is an independent fan project.
+The original code, trivia text and Zebes Relay typeface use the [MIT License](LICENSE). Third-party fonts have their own SIL Open Font Licenses in `assets/`. Super Metroid and its characters belong to Nintendo. This is an independent fan project.

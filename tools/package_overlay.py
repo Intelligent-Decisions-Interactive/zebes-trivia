@@ -5,7 +5,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 root = Path(__file__).resolve().parents[1]
 site = root / "dist" if (root / "dist/index.html").is_file() else root
 names = ["index.html", "stream.html", "setup.html", "questions.js", "rotation.js",
-         "chat.js", "app.js", "scoreboard.js", "setup.js", "style.css"]
+         "chat.js", "app.js", "scoreboard.js", "font.js", "setup.js", "style.css"]
 files = [site / name for name in names] + sorted((site / "assets").glob("*"))
 temporary = site / "zebes-obs.tmp"
 with ZipFile(temporary, "w", ZIP_DEFLATED) as archive:
