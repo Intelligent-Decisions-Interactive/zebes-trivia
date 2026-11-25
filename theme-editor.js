@@ -8,6 +8,7 @@ const ThemeEditor = (() => {
   const list = byId("theme-list"), preview = byId("theme-preview");
   const details = byId("custom-fields"), customize = byId("customize");
   const frame = byId("theme-frame"), banner = byId("theme-banner"), shade = byId("theme-shade");
+  const typeface = byId("theme-typeface");
   const labels = {page:"Background", panel:"Panels", accent:"Accent", secondary:"Timing", text:"Text", tint:"Header tint"};
   let current = BroadcastTheme.read(new URLSearchParams(location.search));
 
@@ -23,14 +24,17 @@ const ThemeEditor = (() => {
       swatch.style.setProperty("--swatch",color);
       option.querySelector(".swatch-strip").append(swatch);
     }
-    option.querySelector("strong").textContent = palette.name;
+    const title = option.querySelector("strong");
+    title.textContent = palette.name;
+    title.style.fontFamily = JSON.stringify(palette.family) + ", sans-serif";
     option.querySelector("small").textContent = palette.description;
     radio.addEventListener("change", () => {
-      current = BroadcastTheme.preset(id);
+      current = {...BroadcastTheme.preset(id),face:typeface.value};
       sync();
     });
     list.append(option);
     frame.add(new Option(palette.name,id));
+    typeface.add(new Option(palette.family,id));
   }
   for (const key of BroadcastTheme.colors) {
     const label = document.createElement("label");
@@ -54,6 +58,8 @@ const ThemeEditor = (() => {
   function render() {
     updateShareLink();
     BroadcastTheme.apply(preview,current);
+    typeface.options[0].textContent = "Theme default · " + BroadcastTheme.presets[current.frame].family;
+    byId("font-preview").style.setProperty("--theme-face",JSON.stringify(BroadcastTheme.family(current)));
     byId("shade-value").textContent = current.shade + "%";
     const note = byId("contrast-note");
     const faint = [["Text",current.text],["Accent",current.accent],["Timing",current.secondary]]
@@ -69,13 +75,19 @@ const ThemeEditor = (() => {
     customize.textContent = custom ? "Reset to " + BroadcastTheme.presets[current.frame].name : "Customize this preset";
     for (const key of BroadcastTheme.colors) byId("color-" + key).value = current[key];
     frame.value = current.frame;
+    typeface.value = current.face;
     shade.value = current.shade;
     banner.value = current.banner;
     banner.setCustomValidity("");
     render();
   }
+  if (current.face) byId("font-options").open = true;
+  typeface.addEventListener("change", () => {
+    current.face = typeface.value;
+    render();
+  });
   customize.addEventListener("click", () => {
-    current = current.id === "custom" ? BroadcastTheme.preset(current.frame) : {...current,id:"custom"};
+    current = current.id === "custom" ? {...BroadcastTheme.preset(current.frame),face:typeface.value} : {...current,id:"custom"};
     sync();
     customize.dispatchEvent(new Event("input",{bubbles:true}));
   });

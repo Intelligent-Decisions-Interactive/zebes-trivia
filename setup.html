@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Stream setup | Zebes Terminal</title>
-  <link rel="icon" href="assets/mark.png"><link rel="stylesheet" href="style.css?v=5892e2c">
+  <link rel="icon" href="assets/mark.png"><link rel="stylesheet" href="style.css?v=theme-fonts">
   <link rel="stylesheet" href="theme.css?v=2">
-  <script defer src="chat.js"></script><script defer src="theme.js?v=2"></script><script defer src="font.js"></script><script defer src="theme-editor.js?v=2"></script><script defer src="setup.js?v=themes1"></script>
+  <script defer src="chat.js"></script><script defer src="theme.js?v=3"></script><script defer src="font.js"></script><script defer src="theme-editor.js?v=3"></script><script defer src="setup.js?v=theme-fonts"></script>
 </head>
 <body>
 <header class="topbar"><div class="bar-inner"><a href="index.html" class="brand"><img src="assets/mark.png" alt="" width="32" height="32">ZEBES<span>TERMINAL</span></a></div></header>
@@ -31,9 +31,11 @@
         <p id="contrast-note" class="notice" hidden></p>
       </div>
       <details class="font-options" id="font-options"><summary>Customize font</summary>
+        <label class="field-label" for="theme-typeface">Broadcast typeface</label>
+        <select id="theme-typeface"><option value="">Theme default</option></select>
         <label class="field-label" for="font-url">Channel font URL (optional)</label>
         <input id="font-url" class="chat-field" type="url" placeholder="https://example.com/channel.woff2" aria-describedby="font-hint" autocapitalize="none" spellcheck="false">
-        <small id="font-hint">The default is Zebes Relay. To use your own, link directly to a webfont that allows cross-origin loading.</small>
+        <small id="font-hint">A direct HTTPS webfont link overrides the bundled typeface. The font host must allow cross-origin loading.</small>
         <p class="font-preview" id="font-preview">Super Metroid · A B C D · 01:59</p>
       </details>
       <button type="submit" class="button primary">Get OBS link</button>

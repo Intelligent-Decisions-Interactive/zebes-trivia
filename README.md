@@ -28,13 +28,22 @@ Select **Customize this preset** to change six colors, frame style, banner image
 
 To preview a preset without chat, open `stream.html?theme=signal`, `stream.html?theme=splits` or `stream.html?theme=orbit`. Existing links use Zebes Terminal.
 
-## Broadcast font
+## Broadcast typefaces
 
-Zebes Relay is the overlay’s original typeface. Its regular and bold webfonts ship with the site and offline download. Existing OBS links use it automatically.
+Each theme includes an original regular and bold webfont, bundled for both hosted and offline overlays.
 
-To use a channel font, open **Customize font** in the link generator, enter a direct HTTPS font file URL and generate the OBS link. The font host must allow cross-origin requests. The overlay uses Zebes Relay if the custom font is unavailable.
+| Theme | Typeface | Lettering |
+| --- | --- | --- |
+| Zebes Terminal | Zebes Relay | Angular terminal lettering |
+| Violet Signal | Neon Trace | Forward-slanted neon lettering |
+| Split Clock | Split Counter | Compact, upright timing figures |
+| Plum Orbit | Orbit Arc | Rounded letters with open counters |
 
-The editable letterforms are in `tools/build_font.py`. To regenerate the two WOFF2 files, install `fonttools`, `shapely` and `brotli`, then run `python tools/build_font.py`.
+Theme selection sets the typeface automatically, including for existing OBS URLs. Custom palettes follow their frame style. In **Customize font**, choose a different bundled face to pair it with any palette. The editor carries that choice in OBS and share links, for example `stream.html?theme=signal&face=orbit`.
+
+A direct HTTPS channel font URL takes priority over the bundled face. The font host must allow cross-origin requests. If loading fails on the overlay, the selected bundled face appears.
+
+The font sources are in `tools/build_font.py`, `tools/neon_trace.py`, `tools/split_counter.py` and `tools/orbit_arc.py`. To regenerate all eight WOFF2 files, install `fonttools`, `shapely` and `brotli`, then run `python tools/build_font.py`.
 
 ## Answer history
 
@@ -54,4 +63,4 @@ Run `python tools/package_overlay.py` to rebuild the offline ZIP after changing 
 
 ## License
 
-The original code, trivia text and Zebes Relay typeface use the [MIT License](LICENSE). Third-party fonts have their own SIL Open Font Licenses in `assets/`. Super Metroid and its characters belong to Nintendo. This is an independent fan project.
+The original code, trivia text and four broadcast typefaces use the [MIT License](LICENSE). Third-party fonts have their own SIL Open Font Licenses in `assets/`. Super Metroid and its characters belong to Nintendo. This is an independent fan project.

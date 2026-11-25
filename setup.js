@@ -3,6 +3,7 @@
 const input=document.getElementById("channel-name"), result=document.getElementById("link-result");
 const error=document.getElementById("setup-error"), field=document.getElementById("source-url");
 const fontInput=document.getElementById("font-url"), preview=document.getElementById("font-preview");
+const broadcastPreview=document.getElementById("theme-preview");
 const form=document.getElementById("channel-form"), submit=form.querySelector('button[type="submit"]');
 const params=new URLSearchParams(location.search);
 input.value=twitchLogin(params.get("channel"));
@@ -21,8 +22,8 @@ function invalidateLink() {
 form.addEventListener("input",invalidateLink);
 fontInput.oninput=()=>{
   ThemeEditor.updateShareLink();
-  preview.style.fontFamily="";
-  document.getElementById("theme-preview").style.removeProperty("--pixel");
+  preview.classList.remove("has-channel-font");
+  broadcastPreview.classList.remove("has-channel-font");
   if(previewFace) document.fonts.delete(previewFace);
   previewFace=null;
 };
@@ -38,8 +39,8 @@ async function previewFont(url) {
     if(previewFace && previewFace!==face) document.fonts.delete(previewFace);
     document.fonts.add(face);
     previewFace=face;
-    preview.style.fontFamily='"Channel Overlay",var(--pixel)';
-    document.getElementById("theme-preview").style.setProperty("--pixel", '"Channel Overlay","Zebes Relay",sans-serif');
+    preview.classList.add("has-channel-font");
+    broadcastPreview.classList.add("has-channel-font");
   } catch(error) {
     if(pending===fontRequest) fontRequest=null;
     throw error;
@@ -47,7 +48,7 @@ async function previewFont(url) {
 }
 function fontError() {
   document.getElementById("font-options").open=true;
-  error.textContent="Use a direct HTTPS font link that allows cross-origin loading, or clear the field for Zebes Relay.";
+  error.textContent="Use a direct HTTPS font link that allows cross-origin loading, or clear the field to use the selected broadcast typeface.";
   error.hidden=false;
 }
 fontInput.onchange=async ()=>{

@@ -1,5 +1,9 @@
-"""Build the original Zebes Relay webfonts. Install fonttools, brotli and shapely to rebuild."""
+"""Build the four original Zebes Trivia type families. Install fonttools, brotli and shapely to rebuild."""
 from pathlib import Path
+
+import neon_trace
+import orbit_arc
+import split_counter
 
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -96,21 +100,34 @@ STROKES = {
 STROKES[chr(96)] = "0,-0.1 0.7,1.1"
 
 
-def make_glyph(character, paths, radius):
+def relay_outline(character, strokes, radius):
     shapes = []
-    for path in paths.split("|"):
-        points = [tuple(map(float, pair.split(","))) for pair in path.split()]
+    for points in strokes:
         line = Point(points[0]) if len(points) == 1 else LineString(points)
         shapes.append(line.buffer(radius, cap_style="square", join_style="bevel"))
-    silhouette = unary_union(shapes).simplify(0.004, preserve_topology=True)
+    return unary_union(shapes)
+
+
+class ZebesRelay:
+    FAMILY, SLUG = "Zebes Relay", "zebes-relay"
+    RADII = (0.45, 0.66)
+    WIDTH_SCALE, SLANT, TRACKING, DIGIT_ADVANCE = 86, 0.055, 94, 608
+    OVERRIDES = {}
+    draw = staticmethod(relay_outline)
+
+
+def make_glyph(face, character, paths, radius):
+    strokes = [[tuple(map(float, pair.split(","))) for pair in path.split()]
+               for path in paths.split("|")]
+    silhouette = face.draw(character, strokes, radius).simplify(0.004, preserve_topology=True)
     polygons = [silhouette] if silhouette.geom_type == "Polygon" else silhouette.geoms
-    # A slight forward slope and optically spaced sides. Digits share one advance.
+
     def horizontal(x, y):
-        return (x + (7 - y) * 0.055) * 86
+        return (x + (7 - y) * face.SLANT) * face.WIDTH_SCALE
 
     bounds = [horizontal(x, y) for p in polygons for x, y in p.exterior.coords]
     width = max(bounds) - min(bounds)
-    advance = 608 if character.isdecimal() else round(width + 94)
+    advance = face.DIGIT_ADVANCE if character.isdecimal() else round(width + face.TRACKING)
     bearing = round((advance - width) / 2)
     pen = TTGlyphPen(None)
     for shape in polygons:
@@ -126,13 +143,13 @@ def make_glyph(character, paths, radius):
     return pen.glyph(), (advance, bearing)
 
 
-def build(style, radius, weight, folder):
+def build(face, style, radius, weight, folder):
     glyphs, metrics, cmap = {}, {}, {}
-    for char, drawing in STROKES.items():
+    for char, drawing in (STROKES | face.OVERRIDES).items():
         name = "uni%04X" % ord(char)
         cmap[ord(char)] = name
-        glyphs[name], metrics[name] = make_glyph(char, drawing, radius)
-    glyphs[".notdef"], metrics[".notdef"] = make_glyph("", "0,0 4,0 4,7 0,7 0,0", radius)
+        glyphs[name], metrics[name] = make_glyph(face, char, drawing, radius)
+    glyphs[".notdef"], metrics[".notdef"] = make_glyph(face, "", "0,0 4,0 4,7 0,7 0,0", radius)
     glyphs["space"] = TTGlyphPen(None).glyph()
     metrics["space"] = (300, 0)
     cmap.update({32: "space", 160: "space"})
@@ -142,9 +159,10 @@ def build(style, radius, weight, folder):
     builder.setupGlyf(glyphs)
     builder.setupHorizontalMetrics(metrics)
     builder.setupHorizontalHeader(ascent=790, descent=-260)
+    postscript = face.FAMILY.replace(" ", "") + "-" + style
     builder.setupNameTable({
-        "familyName": "Zebes Relay", "styleName": style, "fullName": "Zebes Relay " + style,
-        "psName": "ZebesRelay-" + style, "uniqueFontIdentifier": "ZebesRelay-" + style + "-1.000",
+        "familyName": face.FAMILY, "styleName": style, "fullName": face.FAMILY + " " + style,
+        "psName": postscript, "uniqueFontIdentifier": postscript + "-1.000",
         "version": "Version 1.000", "designer": "Zebes Trivia contributors",
         "copyright": "Copyright 2026 Zebes Trivia contributors", "licenseDescription": "MIT License",
     })
@@ -156,11 +174,12 @@ def build(style, radius, weight, folder):
     builder.font["head"].created = builder.font["head"].modified = 3857500800
     builder.font.recalcTimestamp = False
     builder.font.flavor = "woff2"
-    builder.save(folder / ("zebes-relay-" + style.lower() + ".woff2"))
+    builder.save(folder / (face.SLUG + "-" + style.lower() + ".woff2"))
 
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
     site = root / "dist" if (root / "dist/index.html").exists() else root
-    build("Regular", 0.45, 400, site / "assets")
-    build("Bold", 0.66, 700, site / "assets")
+    for face in (ZebesRelay, neon_trace, split_counter, orbit_arc):
+        build(face, "Regular", face.RADII[0], 400, site / "assets")
+        build(face, "Bold", face.RADII[1], 700, site / "assets")
