@@ -22,6 +22,8 @@ Choose **Zebes Terminal** for the original green overlay, or pick a runner-inspi
 | Split Clock | [Oatsngoats](https://www.youtube.com/watch?v=OjghbQnhzDE) | Squared charcoal panels, subtle dividers and teal split accents |
 | Plum Orbit | [zoasty](https://www.youtube.com/watch?v=qUVh6kkXl0w) | Plum and lavender bands with lime timing and first-place highlights |
 
+> Zebes Trivia is an independent fan project. We credit streamers for their runs and for the broadcasts that inspired our themes. Those credits imply no affiliation, sponsorship, or endorsement.
+
 Select **Customize this preset** to change six colors, frame style, banner image and header tint strength. The preview updates as you edit. Every preset starts with the full-width Samus banner at 60% tint. Custom images use public HTTPS URLs; the built-in art loads behind them.
 
 **Get OBS link** includes your theme, channel and optional font in the Browser Source URL. Use **Bookmark or share this setup** to reopen the editor with the same choices on another device. **Share theme without a channel** opens the same design with the channel field empty for another streamer. To change the look of an existing stream, replace its Browser Source URL with the new one. The same channel and browser profile keep their scores and question rotation.
@@ -63,4 +65,4 @@ Run `python tools/package_overlay.py` to rebuild the offline ZIP after changing 
 
 ## License
 
-The original code, trivia text and four broadcast typefaces use the [MIT License](LICENSE). Third-party fonts have their own SIL Open Font Licenses in `assets/`. Super Metroid and its characters belong to Nintendo. This is an independent fan project.
+The original code, trivia text and four broadcast typefaces use the [MIT License](LICENSE). Third-party fonts have their own SIL Open Font Licenses in `assets/`. Super Metroid and its characters belong to Nintendo.
