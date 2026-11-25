@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0e0c">
+  <meta name="description" content="Live Super Metroid trivia on boss mechanics, speedrun routes and the runners who raced them. Includes timed answers and an offline OBS view.">
+  <title>Zebes Terminal | Super Metroid Trivia</title>
+  <link rel="icon" href="assets/mark.png"><link rel="stylesheet" href="style.css">
+  <script defer src="questions.js"></script><script defer src="rotation.js"></script><script defer src="chat.js"></script><script defer src="app.js"></script><script defer src="scoreboard.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="bar-inner">
+  <a href="#console" class="brand" aria-label="Zebes Terminal home"><img src="assets/mark.png" width="32" height="32" alt="">ZEBES<span>TERMINAL</span></a>
+  <nav aria-label="Main"><a href="#console" id="console-tab"><i data-icon="radio"></i>Live console</a><a href="#bank" id="bank-tab"><i data-icon="library"></i>Question bank</a></nav>
+  <button id="stream" class="button stream-btn"><i data-icon="expand"></i>Stream view</button>
+</div></header>
+<main class="wrap">
+  <div id="console">
+    <section class="banner" aria-label="Super Metroid trivia broadcast">
+      <div class="hero"><div class="hero-copy">
+        <div class="live-tag"><b class="live-dot"></b><span id="live-label">LIVE TRANSMISSION</span></div>
+        <h1>SUPER METROID<span>TRIVIA TERMINAL</span></h1>
+        <p><span class="console-intro">Test your knowledge of planet Zebes.</span><span class="stream-intro">Be right back.</span> Play along in chat.</p>
+      </div><span class="bracket tl"></span><span class="bracket tr"></span></div>
+      <div class="ticker"><span class="ticker-label"><i data-icon="radio"></i>LIVE TICKER</span><div class="ticker-window" aria-hidden="true"><div id="crawl"></div></div></div>
+    </section>
+    <div class="dashboard">
+      <section class="panel question-panel" aria-labelledby="question">
+        <div class="panel-heading"><h2><span class="signal"><b></b><b></b><b></b><b></b></span>Current question</h2><span class="q-count" title="Questions dealt in this shuffled pass"><b id="q-number"></b><span> / <span id="q-total"></span> this pass</span></span></div>
+        <div class="question-body" id="question-body"><div class="tags"><span id="q-category" class="tag"></span><span id="difficulty" class="difficulty"></span></div>
+          <h3 id="question" aria-live="polite"></h3><div id="choices" aria-label="Answer choices"></div>
+          <div id="explanation" class="answer-note" hidden><p id="answer-note" aria-live="polite"></p><a id="answer-source" target="_blank" rel="noopener"></a></div>
+        </div>
+        <div class="timer-box"><div class="timer-info"><span><i data-icon="timer"></i><span id="timer-label">Answer reveal in</span></span><b id="time">30s</b></div><div class="timer-track"><div id="timer-bar"></div></div></div>
+      </section>
+      <aside class="panel chat-panel" id="chat-panel" aria-label="Twitch chat leaderboard" hidden>
+        <div class="panel-heading"><h2>Chat leaderboard</h2></div>
+        <div class="score-content"><p id="score-channel"></p><p id="chat-status" role="status">Connecting…</p>
+          <ol id="leaders" class="leaders"></ol>
+          <p id="round-guesses">0 answers this round</p><p class="score-rule">First letter counts. One point per correct answer.</p>
+          <button class="text-button" id="open-scores" disabled>Open scorebook</button>
+        </div>
+      </aside>
+      <aside class="panel controls">
+        <div class="panel-heading"><h2><i data-icon="sliders"></i>Stream controls</h2></div>
+        <div class="control-body">
+          <div class="transport"><button id="pause" class="button primary"></button><button id="next" class="button" aria-label="Skip to next question" title="Next question (N)"><i data-icon="skip"></i></button></div>
+          <button id="reveal" class="button reveal"><i data-icon="eye"></i><span>Reveal answer</span></button>
+          <div class="control-settings">
+            <div class="setting"><label for="duration"><i data-icon="timer"></i>Question time</label><select id="duration"><option value="15">15 sec</option><option value="30" selected>30 sec</option><option value="45">45 sec</option><option value="60">60 sec</option></select></div>
+            <div class="setting"><span id="loop-label"><i data-icon="repeat"></i>Loop feed</span><button id="loop" class="switch" aria-labelledby="loop-label" role="switch" aria-checked="true"><b></b></button></div>
+          </div>
+          <a class="button chat-link" href="setup.html">Connect Twitch chat</a><button id="setup" class="setup-link"><i data-icon="monitor"></i>OBS setup</button>
+        </div>
+      </aside>
+    </div>
+    <section class="queue" aria-labelledby="queue-title"><div class="queue-heading"><h2 id="queue-title"><i data-icon="layers"></i>Up next</h2><button id="all-questions" class="text-button">View question bank<i data-icon="library"></i></button></div><div id="queue-list"></div></section>
+  </div>
+  <section id="bank" hidden aria-labelledby="bank-title"><div class="bank-head"><div class="bank-heading"><i data-icon="library"></i><span>TRIVIA ARCHIVE</span></div><h1 id="bank-title">Question bank</h1><p>Choose a question to cue it in the live feed.</p></div>
+    <div class="filters"><label class="searchbox"><i data-icon="search"></i><input type="search" id="search" placeholder="Search questions" aria-label="Search questions"></label><select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select></div>
+    <div class="archive-count" id="results" aria-live="polite"></div><div id="bank-list"></div>
+  </section>
+  <footer><span><b class="footer-light"></b><span id="footer-state">Feed online</span></span><span>SUPER METROID <em>/</em> SNES <em>/</em> 1994</span></footer>
+</main>
+<button class="button exit-stream" id="exit-stream"><i data-icon="contract"></i>Exit stream view</button>
+<dialog id="scores-dialog"><div class="panel-heading"><h2>Channel scorebook</h2><button class="close" id="close-scores" aria-label="Close scorebook">×</button></div>
+<div class="modal-body"><label class="field-label" for="viewer-filter">Find a viewer</label><input class="chat-field" id="viewer-filter" type="search" placeholder="Twitch display name"><h3>Standings</h3>
+<ol id="full-leaders" class="leaders"></ol><h3>Latest 50 answers</h3><ol id="history-list"></ol><p id="history-empty">No matching answers.</p>
+<button class="button" id="export-scores">Export full answer log (CSV)</button></div></dialog>
+<dialog id="obs-dialog"><div class="panel-heading"><h2><i data-icon="monitor"></i>OBS setup</h2><button class="close" aria-label="Close OBS setup" id="close-setup">×</button></div><div class="modal-body"><h3>Add the trivia to your stream</h3><p>For Twitch chat scoring, generate your Browser Source URL.</p><a class="button primary" href="setup.html">Set up your channel</a><h4>Offline trivia</h4><ol><li>Download and extract the overlay folder.</li><li>In OBS, add a <strong>Browser</strong> source. Enable <strong>Local file</strong> and select <strong>stream.html</strong> from the folder.</li><li>Set the width to <strong>1920</strong> and height to <strong>1080</strong>. The feed starts automatically.</li></ol><a class="button primary" href="zebes-obs.zip" download><i data-icon="download"></i>Download OBS overlay</a><p>To control playback, right-click the source and select <strong>Interact</strong>.</p><div class="shortcuts"><span><kbd>P</kbd> Pause</span><span><kbd>R</kbd> Reveal</span><span><kbd>N</kbd> Next</span><span><kbd>V</kbd> Toggle view</span></div></div></dialog>
+</body></html>

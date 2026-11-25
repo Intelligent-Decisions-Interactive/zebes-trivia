@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Connect Twitch chat | Zebes Terminal</title>
+  <link rel="icon" href="assets/mark.png"><link rel="stylesheet" href="style.css">
+  <script defer src="chat.js"></script><script defer src="setup.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="bar-inner"><a href="index.html" class="brand"><img src="assets/mark.png" alt="" width="32" height="32">ZEBES<span>TERMINAL</span></a></div></header>
+<main class="setup-page">
+  <div class="setup-art"></div>
+  <section class="setup-copy"><h1>Connect Twitch chat</h1>
+    <p>Turn your BRB scene into a Super Metroid quiz. Viewers answer in Twitch chat and earn a place on your stream’s leaderboard.</p>
+    <form id="channel-form">
+      <label class="field-label" for="channel-name">Twitch channel</label>
+      <div class="channel-row"><input id="channel-name" class="chat-field" placeholder="Channel name" autocapitalize="none" spellcheck="false" required><button type="submit" class="button primary">Get OBS link</button></div>
+      <p role="status" id="setup-error" hidden></p>
+    </form>
+    <div id="link-result" hidden><label for="source-url" class="field-label">Your Browser Source URL</label><div class="channel-row"><input class="chat-field" id="source-url" readonly><button class="button" id="copy-url">Copy link</button></div>
+      <p id="copy-result" role="status"></p></div>
+    <h2>Add it to OBS</h2>
+    <ol><li>Add a <strong>Browser</strong> source to your BRB scene.</li><li>Paste your link into <strong>URL</strong>. Set the size to <strong>1920 × 1080</strong>.</li><li>Switch to the scene. Chat’s first A, B, C or D per viewer counts for that question.</li></ol>
+    <p>Scores and answer history stay in that OBS browser profile across streams. To browse a viewer’s answers or export the log, choose <strong>Interact</strong> in OBS, press <kbd>V</kbd> and open <strong>Scorebook</strong>.</p>
+    <a href="https://github.com/Intelligent-Decisions-Interactive/zebes-trivia">Source and contributions on GitHub</a>
+  </section>
+</main></body></html>
